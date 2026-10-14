@@ -1,0 +1,127 @@
+// Prisma schema for Montessori Brain Trainer (Project Basic Math)
+// Database provider: MySQL / MariaDB (XAMPP localhost:3306 / brain_trainer_db)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  student
+  teacher
+  parent
+}
+
+enum ModuleCategory {
+  concrete_montessori
+  mental_math
+  sandbox
+}
+
+enum RecordStatus {
+  completed
+  in_progress
+  failed
+}
+
+model User {
+  id           String           @id @default(uuid())
+  username     String           @unique
+  name         String
+  email        String           @unique
+  passwordHash String           @map("password_hash")
+  role         Role             @default(student)
+  createdAt    DateTime         @default(now()) @map("created_at")
+  updatedAt    DateTime         @updatedAt @map("updated_at")
+
+  profile      Profile?
+  records      LearningRecord[]
+  userBadges   UserBadge[]
+
+  @@map("users")
+}
+
+model Profile {
+  id          String   @id @default(uuid())
+  userId      String   @unique @map("user_id")
+  displayName String   @map("display_name")
+  avatar      String?
+  language    String   @default("id")
+  theme       String   @default("dark")
+  gradeLevel  String?  @default("SD Kelas 1-3") @map("grade_level")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("profiles")
+}
+
+model GameModule {
+  id            String          @id @default(uuid())
+  code          String          @unique
+  nameId        String          @map("name_id")
+  nameEn        String          @map("name_en")
+  descriptionId String?         @map("description_id") @db.Text
+  descriptionEn String?         @map("description_en") @db.Text
+  category      ModuleCategory  @default(concrete_montessori)
+  level         Int             @default(1)
+  icon          String?         @default("Shapes")
+  isActive      Boolean         @default(true) @map("is_active")
+  createdAt     DateTime        @default(now()) @map("created_at")
+
+  records LearningRecord[]
+
+  @@map("game_modules")
+}
+
+model LearningRecord {
+  id        String       @id @default(uuid())
+  userId    String       @map("user_id")
+  moduleId  String       @map("module_id")
+  score     Int          @default(0)
+  accuracy  Float        @default(100.0)
+  streak    Int          @default(1)
+  timeSpent Int          @default(60) @map("time_spent")
+  status    RecordStatus @default(completed)
+  playedAt  DateTime     @default(now()) @map("played_at")
+
+  user   User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  module GameModule @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([moduleId])
+  @@map("learning_records")
+}
+
+model BadgeAchievement {
+  id            String      @id @default(uuid())
+  code          String      @unique
+  nameId        String      @map("name_id")
+  nameEn        String      @map("name_en")
+  descriptionId String      @map("description_id")
+  descriptionEn String      @map("description_en")
+  icon          String
+  rewardPoints  Int         @default(100) @map("reward_points")
+
+  userBadges UserBadge[]
+
+  @@map("badges_achievement")
+}
+
+model UserBadge {
+  id         String   @id @default(uuid())
+  userId     String   @map("user_id")
+  badgeId    String   @map("badge_id")
+  unlockedAt DateTime @default(now()) @map("unlocked_at")
+
+  user  User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  badge BadgeAchievement @relation(fields: [badgeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, badgeId])
+  @@map("user_badges")
+}
