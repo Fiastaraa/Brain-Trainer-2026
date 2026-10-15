@@ -61,4 +61,15 @@ export interface UserAnalyticsResponse {
     avgAccuracy: number;
     playedCount: number;
   }[];
+}export interface CognitiveStat {
+  pillar: string;
+  scoreIndex: number;
+}
+
+export interface GameSession {
+  score: number;
+  accuracyRate?: number;
+  game?: {
+    title: string;
+  };
 }

@@ -153,7 +153,7 @@ export const NumberRodsGame: React.FC = () => {
 
   const handleNext = () => {
     soundFX.playClick();
-    if (currentIndex + 1 < QUESTIONS.length) {
+    if (currentIndex + 1 < questions.length) {
       setCurrentIndex((prev) => prev + 1);
       setSelectedAnswer(null);
       setFeedback('idle');
@@ -214,7 +214,7 @@ export const NumberRodsGame: React.FC = () => {
       <div className="flex items-center justify-between p-4 rounded-2xl glass-panel border border-slate-800">
         <div className="flex items-center space-x-3">
           <span className="text-xs font-bold px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
-            {t('Soal', 'Question')} {currentIndex + 1} / {QUESTIONS.length}
+            {t('Soal', 'Question')} {currentIndex + 1} / {questions.length}
           </span>
           <span className="text-xs font-medium text-slate-400">
             {t('Batang Angka - Penjumlahan', 'Number Rods - Addition')}
