@@ -1,4 +1,4 @@
-# 🎮 BrainDex — Math Adventure & Cognitive Training Platform
+# 🎮 MathBlitz — Math Adventure & Cognitive Training Platform
 
 > **Game Petualangan Matematika & Pelatihan Kognitif Interaktif** terinspirasi oleh visual RPG ala [Codédex](https://www.codedex.io/) dan filosofi konkret sensori **Montessori CPA (Concrete-Pictorial-Abstract)**, ditenagai oleh **Google Gemini AI** dan **Smart Procedural Math Engine**.
 

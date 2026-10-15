@@ -59,7 +59,7 @@ export const AdventureNavbar: React.FC<AdventureNavbarProps> = ({
           <div>
             <div className="flex items-center gap-1.5">
               <span className="font-black text-base sm:text-lg tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-amber-300 via-indigo-300 to-rose-300">
-                BrainDex
+                MathBlitz
               </span>
               <span className="text-[10px] font-bold text-amber-400 border border-amber-400/30 px-1.5 py-0.2 rounded-full bg-amber-400/10 hidden sm:inline-block">
                 ⋆˙⟡ Adventure
